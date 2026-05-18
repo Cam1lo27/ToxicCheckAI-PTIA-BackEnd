@@ -5,3 +5,4 @@ joblib
 pydantic
 python-multipart
 deep-translator
+lightgbm
