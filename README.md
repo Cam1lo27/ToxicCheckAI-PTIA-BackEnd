@@ -1,54 +1,96 @@
 # ToxiCheck — Backend
 
-API REST del detector de mensajes tóxicos.  
-**Stack:** FastAPI · scikit-learn · Random Forest
+API REST para detección de mensajes tóxicos usando Machine Learning.
+**Stack:** FastAPI · scikit-learn · Random Forest · Python 3.11
 
-## Desarrollo local
+---
 
+## Requisitos
+
+- Python 3.11+
+- El modelo entrenado: `modelo_random_forest_aprendido.joblib`
+
+---
+
+## Correr localmente
+
+1. Clona el repositorio:
 ```bash
-pip install -r requirements.txt
-# Copia el modelo entrenado aquí:
-# modelo_random_forest_aprendido.joblib
-uvicorn main:app --reload --port 8000
+   git clone https://github.com/Cam1lo27/ToxicCheckAI-PTIA-BackEnd.git
+   cd ToxicCheckAI-PTIA-BackEnd
 ```
 
-Verifica en: http://localhost:8000/health
+2. Instala las dependencias:
+```bash
+   pip install -r requirements.txt
+```
+
+3. Copia el modelo entrenado a la raíz del proyecto:
+
+
+- modelo_random_forest_aprendido.joblib: https://drive.google.com/file/d/1WOWctYkWo83BHGFVfW6GP4OQCmOmmhZY/view?usp=sharing
+
+4. Levanta el servidor:
+```bash
+   python -m uvicorn main:app --reload --port 8000
+```
+
+5. Verifica que funciona:
+   http://localhost:8000/health
+
+---
 
 ## Endpoints
 
 | Método | Ruta | Descripción |
-|---|---|---|
-| GET | `/health` | Estado del servicio y modelo |
+|--------|------|-------------|
+| GET | `/` | Estado del servicio |
+| GET | `/health` | Info del modelo cargado |
 | POST | `/analizar` | Clasifica un texto |
 
 ### Ejemplo de request
 
-```json
-POST /analizar
-{ "texto": "esto es un mensaje de prueba" }
+```bash
+curl -X POST http://localhost:8000/analizar \
+  -H "Content-Type: application/json" \
+  -d '{"texto": "Que basura de producto"}'
 ```
 
 ### Ejemplo de response
 
 ```json
 {
-  "texto": "esto es un mensaje de prueba",
-  "label": "seguro",
-  "confidence": 0.87,
+  "texto": "Que basura de producto",
+  "label": "tóxico",
+  "confidence": 0.5535,
   "source": "random-forest"
 }
 ```
 
-## Despliegue (Azure App Service)
+---
 
-1. Crea un App Service (Python 3.11, Linux)
-2. Sube el código vía GitHub Actions o ZIP deploy
-3. **Sube el modelo `.joblib` manualmente** (es muy grande para git)
-4. En Configuration → Application Settings agrega:
-   - `MODEL_PATH` = ruta absoluta al .joblib en el servidor
-   - `ALLOWED_ORIGINS` = URL de tu frontend
-5. Startup command: `uvicorn main:app --host 0.0.0.0 --port 8000`
+## Variables de entorno
 
-## Repositorio del frontend
+| Variable | Descripción | Default |
+|----------|-------------|---------|
+| `MODEL_PATH` | Ruta al archivo `.joblib` | `modelo_random_forest_aprendido.joblib` |
+| `ALLOWED_ORIGINS` | Orígenes permitidos para CORS | `*` |
 
-→ [toxicheck-frontend](https://github.com/TU_USUARIO/toxicheck-frontend)
+---
+
+## Modelo
+
+Entrenado con el dataset público `tweet_eval/sentiment` de Hugging Face.
+Las etiquetas originales de sentimiento se mapean así:
+
+| Original | Etiqueta |
+|----------|----------|
+| negative | tóxico |
+| neutral | moderado |
+| positive | seguro |
+
+---
+
+## Autores
+
+Andrés Camilo Vivas · Daniel Esteban Rodríguez · PTIA Grupo 3
