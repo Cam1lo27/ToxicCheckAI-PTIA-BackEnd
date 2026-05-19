@@ -90,6 +90,19 @@ Las etiquetas originales de sentimiento se mapean así:
 | positive | seguro |
 
 ---
+## Documentación en el Código
+
+El backend de ToxiCheck está complementado con documentación detallada en el código fuente para facilitar la comprensión, mantenimiento y extensión del proyecto. A continuación, se destacan los aspectos documentados:
+
+- **Docstrings en endpoints y funciones**: Cada endpoint de la API y la mayoría de las funciones incluyen docstrings que explican su propósito, parámetros de entrada, posibles respuestas y ejemplos de uso.
+- **Comentarios descriptivos**: Se han añadido comentarios en el código para aclarar bloques lógicos, decisiones de implementación y posibles puntos de extensión.
+- **Tipado estático**: Se usan anotaciones de tipos en funciones y rutas para mejorar la auto-documentación y la integración con herramientas de desarrollo.
+- **Esquemas de entrada/salida**: Los modelos de datos utilizados en las rutas (por ejemplo, solicitudes y respuestas en `/analizar`) están claramente definidos usando clases Pydantic y documentados en el código.
+- **Integración con OpenAPI/Swagger**: Gracias a FastAPI, la documentación interactiva de la API se genera automáticamente a partir de los docstrings y modelos. Puedes consultarla accediendo a `http://localhost:8000/docs` cuando el servidor esté en ejecución.
+
+Esta documentación permite que nuevos colaboradores comprendan rápidamente la estructura y funcionalidades clave del sistema.
+
+---
 
 ## Autores
 
