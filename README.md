@@ -5,6 +5,10 @@ API REST para detección de mensajes tóxicos usando Machine Learning.
 
 ---
 
+## Despliegue
+
+https://toxic-check-ai-ptia-front-end.vercel.app
+
 ## Requisitos
 
 - Python 3.11+
